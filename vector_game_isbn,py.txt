@@ -1,0 +1,58 @@
+import random
+import math
+
+def vector_game():
+    print("Welcome to the Vector Game!")
+    print("You will be given two random vectors, and you must compute their dot product.")
+    
+    v1 = [random.randint(-10, 10) for _ in range(3)]
+    v2 = [random.randint(-10, 10) for _ in range(3)]
+    
+    print(f"Vector 1: {v1}")
+    print(f"Vector 2: {v2}")
+    
+    correct_answer = sum(v1[i] * v2[i] for i in range(3))
+    
+    user_answer = int(input("Enter the dot product of the two vectors: "))
+    
+    if user_answer == correct_answer:
+        print("Correct! Well done.")
+    else:
+        print(f"Incorrect. The correct answer is {correct_answer}.")
+
+def validate_isbn10(isbn: str):
+    isbn = isbn.replace('-', '')
+    if len(isbn) != 10 or not isbn[:-1].isdigit() or (not isbn[-1].isdigit() and isbn[-1] != 'X'):
+        return False, None
+    
+    total = 0
+    for i in range(9):
+        total += int(isbn[i]) * (10 - i)
+    
+    check_digit = 10 - (total % 11)
+    if check_digit == 10:
+        check_digit_char = 'X'
+    elif check_digit == 11:
+        check_digit_char = '0'
+    else:
+        check_digit_char = str(check_digit)
+    
+    return isbn[-1] == check_digit_char, check_digit_char
+
+if __name__ == "__main__":
+    vector_game()
+    
+    test_cases = [
+        "5-577-66823-9", "3-456-23416-3", "9-987-56473-9",
+        "0-067-58769-0", "4-098-62345-5", "6-673-54627-1", "6-645-86667-4",
+        "3-242-56785-8", "3-224-89765-7", "8-875-46332-0",
+        "3-342-06008-6", "9-077-06532-3"
+    ]
+    
+    print("\nISBN Validation Test Cases:")
+    for isbn in test_cases:
+        valid, correct_digit = validate_isbn10(isbn)
+        if valid:
+            print(f"{isbn} is VALID")
+        else:
+            print(f"{isbn} is INVALID, correct check digit should be {correct_digit}"
